@@ -15,10 +15,10 @@ leg_params.leg_pos = compute_coords(vertex_coords_guess, leg_params,theta);
 leg_params.leg_velocity = compute_velocities(vertex_coords_guess,leg_params,theta);
 leg_drawing = initialize_leg_drawing(leg_params);
 
-complete_vertex_coords = zeros(14,500);
+complete_vertex_coords = zeros(14,2500);
 complete_leg_velocity = zeros(14,2);
 complete_leg_velocity_jacobian = zeros(14,2);
-theta = linspace(0,2*pi,length(complete_vertex_coords));
+theta = linspace(0,10*pi,length(complete_vertex_coords));
 for i = 1:length(complete_vertex_coords)
     complete_vertex_coords(:,i)=compute_coords(vertex_coords_guess,leg_params,theta(i));
     [complete_leg_velocity(i,:),complete_leg_velocity_jacobian(i,:)]=compute_velocities(vertex_coords_guess,leg_params,theta(i));
@@ -339,10 +339,12 @@ for i = 1:length(complete_vertex_coords)
     set(leg_drawing.crank,'xdata',crank_x,'ydata',crank_y);
     set(leg_drawing.foot_trace,'xdata',complete_vertex_coords(end-1,1:i),'ydata',complete_vertex_coords(end,1:i));
     if complete_leg_velocity
+        
         [x_coords, y_coords, xhead, yhead] = directionLine(vertex_coord(7,1),vertex_coord(7,2),complete_leg_velocity(i,1),complete_leg_velocity(i,2),.8);
         set(leg_drawing.leg_velocity,'xdata',[x_coords,xhead],'ydata',[y_coords,yhead]);
 
         % set(leg_drawing.leg_velocity,'xdata',[vertex_coord(7,1),vertex_coord(7,1)+.5*complete_leg_velocity(i,1)],'ydata',[vertex_coord(7,2),vertex_coord(7,2)+.5*complete_leg_velocity(i,2)]);
+        
     end
     
     drawnow;
